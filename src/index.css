@@ -1,0 +1,250 @@
+@import 'tailwindcss';
+
+/* Look and feel of iticket.uz: light grey page, white cards, signature yellow, black type, round 20px posters. */
+@theme {
+  --font-sans: 'Inter', -apple-system, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --color-brand: #ffdd00;
+  --color-brand-hover: #f5d000;
+  --color-brand-soft: #fff6b8;
+  --color-ink: #000000;
+  --color-ink-2: #393939;
+  --color-ink-3: #8a8a8a;
+  --color-page: #f9f9f9;
+  --color-line: #e6e6e6;
+  --color-line-2: #d0d0d0;
+  --color-ok: #1b7f4b;
+  --color-ok-soft: #e2f3e8;
+  --color-warn: #9a6200;
+  --color-warn-soft: #fcf0d6;
+  --color-bad: #db4d41;
+  --color-bad-soft: #fbe6e2;
+  --color-info: #3b5a97;
+  --color-info-soft: #e5eef9;
+  --color-seat-taken: #d3d5da;
+  --color-seat-mine: #111111;
+  --radius-card: 20px;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  @apply bg-page text-ink font-sans antialiased;
+  min-height: 100vh;
+}
+button,
+[role='button'] {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+/* Rich text that comes from iticket (event descriptions, static pages). */
+.prose-it {
+  @apply text-[15px] leading-relaxed text-ink-2;
+}
+.prose-it p {
+  @apply mb-3;
+}
+.prose-it ul {
+  @apply mb-3 list-disc pl-5;
+}
+.prose-it ol {
+  @apply mb-3 list-decimal pl-5;
+}
+.prose-it a {
+  @apply underline;
+}
+.prose-it strong {
+  @apply font-semibold text-ink;
+}
+.prose-it img {
+  @apply my-3 max-w-full rounded-xl;
+}
+.prose-it h2,
+.prose-it h3 {
+  @apply mb-2 mt-4 font-bold text-ink;
+}
+
+/* Seating plans (local schemes): colours come from --c set per element. */
+.scheme {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  user-select: none;
+}
+.scheme .stage {
+  fill: #2b3142;
+}
+.scheme .lbl {
+  font: 600 13px var(--font-sans);
+  fill: #1a1e29;
+  pointer-events: none;
+}
+.scheme .lbl-big {
+  font-size: 18px;
+  font-weight: 700;
+}
+.scheme .lbl-stage {
+  fill: #fff;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+.scheme .lbl-sub {
+  font: 500 11px var(--font-sans);
+  fill: #474d5c;
+  pointer-events: none;
+}
+.scheme .lbl-sector {
+  font: 600 11px var(--font-sans);
+  fill: #474d5c;
+  pointer-events: none;
+}
+.scheme .lbl-table {
+  font: 700 11px var(--font-sans);
+  fill: #1a1e29;
+  pointer-events: none;
+}
+.scheme .rowno {
+  font: 500 9px var(--font-sans);
+  fill: #8a8a8a;
+  pointer-events: none;
+}
+.scheme .sector-frame {
+  fill: #fafafa;
+  stroke: #e2ddd2;
+  stroke-width: 1;
+}
+.scheme .sector-fill {
+  fill: color-mix(in srgb, var(--c) 22%, white);
+  stroke: var(--c);
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: fill 0.15s;
+}
+.scheme .el:hover .sector-fill:not(.sold) {
+  fill: color-mix(in srgb, var(--c) 38%, white);
+}
+.scheme .sector-fill.sold,
+.scheme .zone.sold {
+  fill: #eeeeee;
+  stroke: #d0d0d0;
+  cursor: default;
+}
+.scheme .zone {
+  stroke: var(--c, #1fa187);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+  cursor: pointer;
+}
+.scheme .table {
+  fill: color-mix(in srgb, var(--c) 18%, white);
+  stroke: var(--c);
+  stroke-width: 1.5;
+}
+.scheme .table.sold {
+  fill: #eeeeee;
+  stroke: #cfcfcf;
+}
+.scheme .unk {
+  fill: #fbe6e2;
+  stroke: #db4d41;
+  stroke-dasharray: 4 3;
+}
+.scheme .seat {
+  stroke-width: 1;
+  transition:
+    fill 0.1s,
+    r 0.1s;
+}
+.scheme .seat.free {
+  fill: var(--c);
+  stroke: color-mix(in srgb, var(--c) 70%, black);
+  cursor: pointer;
+}
+.scheme .seat.free:hover {
+  stroke: #000;
+  stroke-width: 2;
+}
+.scheme .seat.taken {
+  fill: var(--color-seat-taken);
+  stroke: #c3c6cc;
+}
+.scheme .seat.mine {
+  fill: var(--color-seat-mine);
+  stroke: #ffdd00;
+  stroke-width: 2;
+  cursor: pointer;
+}
+.scheme .seat.ed {
+  fill: var(--c);
+  stroke: color-mix(in srgb, var(--c) 70%, black);
+}
+.scheme .seat.ed.picked {
+  stroke: #000;
+  stroke-width: 3;
+}
+.scheme .seat-removed {
+  fill: none;
+  stroke: #b0b0b0;
+  stroke-dasharray: 2 2;
+  cursor: pointer;
+}
+.scheme .sel-box {
+  fill: none;
+  stroke: #111;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  pointer-events: none;
+}
+.scheme .el.is-bad .sector-frame,
+.scheme .el.is-bad .zone {
+  stroke: #db4d41;
+  stroke-width: 2;
+}
+.scheme .el.is-focus .sector-frame {
+  stroke: #111;
+}
+.scheme .lbl-empty {
+  font: 500 16px var(--font-sans);
+  fill: #8a8a8a;
+}
+
+/* Seat maps rendered from iticket SVG files. */
+.it-map svg {
+  width: 100%;
+  height: 100%;
+}
+.it-map .seat {
+  cursor: default;
+}
+.it-map .seat.is-free {
+  cursor: pointer;
+}
+.it-map .seat.is-free:hover > * {
+  stroke: #000 !important;
+  stroke-width: 2px !important;
+}
+
+/* Hide scrollbars of horizontal sliders, keep them scrollable. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
